@@ -1,11 +1,11 @@
 import express from "express";
-import cors from "cors";
 import "dotenv/config";
 import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
 import adminRouter from "./routes/adminRoute.js";
 import doctorRouter from "./routes/doctorRoute.js";
 import userRouter from "./routes/userRoute.js";
+import cors from 'cors';
 
 // app configuration
 
@@ -14,10 +14,18 @@ const port = process.env.PORT || 4000;
 connectDB();
 connectCloudinary();
 
+app.use(cors({
+  origin: 'https://prescripto-admin-gjvj.onrender.com', 
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], 
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+app.options('*', cors()); 
+
 // Middle-wares
 
 app.use(express.json());
-app.use(cors());
 
 // API Endpoint
 
